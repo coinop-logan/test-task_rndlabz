@@ -1,7 +1,7 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "types": ["vue"],
-    "strict": true
   },
   "files": [],
   "references": [
