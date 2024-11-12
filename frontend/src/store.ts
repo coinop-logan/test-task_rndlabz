@@ -1,26 +1,45 @@
 // store.ts
 import { reactive } from 'vue';
 
-const state = reactive({
-  price: null as number | null,
-  loading: false,
-  error: null as string | null
-});
+interface TokenState {
+  price: number | null;
+  loading: boolean;
+  error: string | null;
+}
+
+interface PriceState {
+  [label: string]: TokenState;
+}
+
+const state = reactive<PriceState>({});
 
 export const usePriceStore = () => {
-  const setPrice = (price: number) => {
-    state.price = price;
-    state.loading = false;
-    state.error = null;
+  const initializeToken = (label: string) => {
+    if (!state[label]) {
+      state[label] = {
+        price: null,
+        loading: false,
+        error: null
+      };
+    }
   };
 
-  const setLoading = (loading: boolean) => {
-    state.loading = loading;
+  const setPrice = (label: string, price: number) => {
+    initializeToken(label);
+    state[label].price = price;
+    state[label].loading = false;
+    state[label].error = null;
   };
 
-  const setError = (error: string) => {
-    state.error = error;
-    state.loading = false;
+  const setLoading = (label: string, loading: boolean) => {
+    initializeToken(label);
+    state[label].loading = loading;
+  };
+
+  const setError = (label: string, error: string) => {
+    initializeToken(label);
+    state[label].error = error;
+    state[label].loading = false;
   };
 
   return {

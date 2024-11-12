@@ -1,12 +1,11 @@
 <script setup lang="ts">
-  import PriceFetcher from './components/PriceFetcher.vue';
+  // import PriceFetcher from './components/PriceFetcher.vue';
   import PriceDisplay from './components/PriceDisplay.vue';
 </script>
 
 <template>
   <div id="app">
     <h1>Cryptocurrency Price Checker</h1>
-    <PriceFetcher />
     <PriceDisplay />
   </div>
 </template>
