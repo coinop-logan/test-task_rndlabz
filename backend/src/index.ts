@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
 });
 
 // Define a route to test your controller
-app.get('/api/price/:id', getPrice); // Example route, adjust as needed
+app.get('/api/price/', getPrice); // Example route, adjust as needed
 
 // Start the server
 app.listen(PORT, () => {
