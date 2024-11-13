@@ -1,4 +1,9 @@
-// __tests__/priceService.test.ts
+import { TextEncoder, TextDecoder } from 'util'
+global.TextEncoder = TextEncoder
+// @ts-expect-error
+global.TextDecoder = TextDecoder
+
+
 import { fetchPrice } from '../src/services/FetchPrice';
 import { describe, it, expect, jest } from '@jest/globals';
 

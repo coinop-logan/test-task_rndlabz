@@ -5,11 +5,15 @@ import { fetchCryptoPrice } from '../services/api';
 
 export default {
   setup() {
+    const store = usePriceStore();
+    
     const fetchPrice = async (symbol: string) => {
       if (symbol) {
         store.setLoading(symbol, true);
         try {
+          console.log('fetching');
           const price = await fetchCryptoPrice(symbol);
+          console.log('fetched', price);
           if (price) {
             store.setPrice(symbol, price);
           }
@@ -25,7 +29,6 @@ export default {
       fetchPrice("USD/TON");
     })
 
-    const store = usePriceStore();
     return { store };
   }
 };
