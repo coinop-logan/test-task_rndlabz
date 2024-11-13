@@ -2,21 +2,24 @@
 import { reactive } from 'vue';
 
 interface TokenState {
+  label: string; // not the cleanest to repeat this data here. but used for a quick workaround related to https://github.com/vuejs/core/issues/5312
   price: number | null;
   loading: boolean;
   error: string | null;
 }
 
 interface PriceState {
-  [label: string]: TokenState;
+  tokens: {[label: string]: TokenState};
+  searchString: string;
 }
 
-const state = reactive<PriceState>({});
+const state = reactive<PriceState>({tokens:{}, searchString: ""});
 
 export const usePriceStore = () => {
   const initializeToken = (label: string) => {
-    if (!state[label]) {
-      state[label] = {
+    if (!state.tokens[label]) {
+      state.tokens[label] = {
+        label: label,
         price: null,
         loading: false,
         error: null
@@ -26,26 +29,31 @@ export const usePriceStore = () => {
 
   const setPrice = (label: string, price: number) => {
     initializeToken(label);
-    state[label].price = price;
-    state[label].loading = false;
-    state[label].error = null;
+    state.tokens[label].price = price;
+    state.tokens[label].loading = false;
+    state.tokens[label].error = null;
   };
 
   const setLoading = (label: string, loading: boolean) => {
     initializeToken(label);
-    state[label].loading = loading;
+    state.tokens[label].loading = loading;
   };
 
   const setError = (label: string, error: string) => {
     initializeToken(label);
-    state[label].error = error;
-    state[label].loading = false;
+    state.tokens[label].error = error;
+    state.tokens[label].loading = false;
   };
+
+  const updateSearchString = (token: string) => {
+    state.searchString = token;
+  }
 
   return {
     state,
     setPrice,
     setLoading,
-    setError
+    setError,
+    updateSearchString
   };
 };
