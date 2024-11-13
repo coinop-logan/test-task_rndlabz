@@ -16,6 +16,17 @@ const priceCacheSchema = new mongoose.Schema({
 
 const PriceCache = mongoose.model('PriceCache', priceCacheSchema);
 
+// Can add multiple api calls here, ideally at the same time adding api keys into .env
+const priceFetchers: ((id: string) => Promise<number>)[] = [
+  async (id: string) => {
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`,
+      {headers: {"x-cg-demo-api-key" : `${GC_API_KEY}`}}
+    );
+    return response.data[id]["usd"];
+  }
+];
+
 export const fetchPrice = async (id: string): Promise<number> => {
   // Check cache in database
   const cached = await PriceCache.findOne({ tokenId: id });
@@ -24,12 +35,26 @@ export const fetchPrice = async (id: string): Promise<number> => {
     return cached.price;
   }
 
-  // Fetch new price if cache miss or expired
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`,
-    {headers: {"x-cg-demo-api-key" : `${GC_API_KEY}`}}
-  );
-  const price = response.data[id]["usd"];
+  let price: number | null = null;
+  
+  // Try each price fetcher
+  for (const fetcher of priceFetchers) {
+    try {
+      const result = await fetcher(id);
+      console.log(`Price fetcher result: ${result}`);
+      if (result) {
+        price = result;
+        break;
+      }
+    } catch (error) {
+      console.log(`Price fetcher failed: ${error}`);
+      continue;
+    }
+  }
+
+  if (price === null) {
+    throw new Error('All price fetchers failed');
+  }
 
   // Update cache in database
   await PriceCache.findOneAndUpdate(

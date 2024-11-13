@@ -23,3 +23,5 @@
 
 just displaying would make more sense, but wanted to "select"
 html tables are lame I know. Sorry, was running out of time!
+failing frontend test
+talk about scaling stuff
