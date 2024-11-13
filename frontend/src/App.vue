@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  // import PriceFetcher from './components/PriceFetcher.vue';
   import PriceDisplay from './components/PriceDisplay.vue';
 </script>
 
