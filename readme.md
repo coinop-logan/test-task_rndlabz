@@ -72,3 +72,5 @@ Given more time, the next steps would be:
 * Get the frontend test working
 * Better visual design
 * Better error handling
+
+Beyond the above, it's hard to speculate on improvements for the app due to its nature as a test task, devoid of any interaction with the market or real user demand of any kind.
