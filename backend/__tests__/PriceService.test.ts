@@ -10,6 +10,8 @@ import { describe, it, expect, jest } from '@jest/globals';
 
 jest.mock('../src/services/FetchPrice');
 
+// Here we mock the underlying service, but call the controller, to cover more of our plumbing.
+
 describe('PriceController', () => {
   it('should return the correct price response for a valid label', async () => {
     // Mock the fetchPrice function
