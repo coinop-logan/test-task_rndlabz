@@ -1,16 +1,13 @@
-// index.ts
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 import { getPrice } from './controllers/PriceController';
 import connectDB from './database';
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON bodies
 app.use(express.json());
 
 app.use(function(req, res, next) {
@@ -19,8 +16,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Define a route to test your controller
-app.get('/api/price/', getPrice); // Example route, adjust as needed
+app.get('/api/price/', getPrice);
 
 // Connect to database and start server
 connectDB().then(() => {

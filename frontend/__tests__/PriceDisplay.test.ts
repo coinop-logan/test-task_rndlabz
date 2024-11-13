@@ -6,10 +6,8 @@ import * as flushPromises from 'flush-promises';
 // Mock the API call in the component
 jest.mock('../src/services/api', () => ({
   fetchCryptoPrice: jest.fn((label: string) => {
-    console.log('hi1');
     if (label === 'TON/USD') return Promise.resolve(1.5);
     if (label === 'USD/TON') return Promise.resolve(0.67);
-    console.log('hi2');
     return Promise.resolve(0);
   }),
 }));

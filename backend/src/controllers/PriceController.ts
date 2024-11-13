@@ -1,4 +1,3 @@
-// controllers/priceController.ts
 import { Request, Response } from 'express';
 import { fetchPrice } from '../services/FetchPrice';
 import { getTokenConfigByLabel } from '../../../common/GetToken'
@@ -28,5 +27,4 @@ export const getPrice = async (req: Request<{}, {}, {}, RequestQuery>, res: Resp
       res.status(500).json({ error: 'Failed to fetch price' });
     }
   }
-
 };

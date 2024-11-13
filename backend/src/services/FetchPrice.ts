@@ -16,7 +16,7 @@ const priceCacheSchema = new mongoose.Schema({
 
 const PriceCache = mongoose.model('PriceCache', priceCacheSchema);
 
-// Can add multiple api calls here, ideally at the same time adding api keys into .env
+// Can add multiple api calls here
 const priceFetchers: ((id: string) => Promise<number>)[] = [
   async (id: string) => {
     const response = await axios.get(
@@ -31,23 +31,24 @@ export const fetchPrice = async (id: string): Promise<number> => {
   // Check cache in database
   const cached = await PriceCache.findOne({ tokenId: id });
   
+  // If we have the data and it's not too old
   if (cached && Date.now() - cached.timestamp < PRICE_CACHE_EXPIRATION_TIME) {
     return cached.price;
   }
 
+  // Otherwise, reach out to price provider apis
+
   let price: number | null = null;
   
-  // Try each price fetcher
+  // Try each price fetcher and return as soon as we get a valid result
   for (const fetcher of priceFetchers) {
     try {
       const result = await fetcher(id);
-      console.log(`Price fetcher result: ${result}`);
       if (result) {
         price = result;
         break;
       }
     } catch (error) {
-      console.log(`Price fetcher failed: ${error}`);
       continue;
     }
   }
@@ -56,7 +57,7 @@ export const fetchPrice = async (id: string): Promise<number> => {
     throw new Error('All price fetchers failed');
   }
 
-  // Update cache in database
+  // Update cache in database and return price
   await PriceCache.findOneAndUpdate(
     { tokenId: id },
     { price, timestamp: Date.now() },

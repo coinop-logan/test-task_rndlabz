@@ -1,4 +1,3 @@
-// config/tokens.ts
 import { TokenConfig } from '../common/models/TokenConfig'
 
 export const tokens: TokenConfig[] = [

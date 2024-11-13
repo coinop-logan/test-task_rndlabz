@@ -2,7 +2,7 @@
 import { reactive } from 'vue';
 
 interface TokenState {
-  label: string; // not the cleanest to repeat this data here. but used for a quick workaround related to https://github.com/vuejs/core/issues/5312
+  label: string; // not the cleanest to repeat this data here. for now this is a quick workaround related to https://github.com/vuejs/core/issues/5312
   price: number | null;
   loading: boolean;
   error: string | null;
