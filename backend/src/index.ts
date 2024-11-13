@@ -1,7 +1,8 @@
 // index.ts
 import * as express from 'express';
 import * as dotenv from 'dotenv';
-import { getPrice } from './controllers/PriceController'; // Adjust this import path as needed
+import { getPrice } from './controllers/PriceController';
+import connectDB from './database';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,7 +22,12 @@ app.use(function(req, res, next) {
 // Define a route to test your controller
 app.get('/api/price/', getPrice); // Example route, adjust as needed
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Connect to database and start server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Failed to connect to MongoDB:', err);
+  process.exit(1);
 });

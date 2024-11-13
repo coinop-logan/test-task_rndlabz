@@ -9,3 +9,12 @@
   * npm run install
     * for frontend and backend?
   * env for api key
+
+# choices
+
+(more from notes)
+* mongoDB for scalability
+  
+# setup
+
+* .env file
