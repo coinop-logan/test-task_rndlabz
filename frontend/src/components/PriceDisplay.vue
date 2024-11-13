@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMounted } from 'vue';
-import {usePriceStore} from '../store';
+import { usePriceStore } from '../store';
 import { fetchCryptoPrice } from '../services/api';
 
 export default {
