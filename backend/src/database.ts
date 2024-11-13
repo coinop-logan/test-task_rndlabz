@@ -9,7 +9,6 @@ const connectDB = async () => {
   const mongoUri = process.env.MONGO_URI;
 
   await mongoose.connect(`mongodb://${mongoUser}:${mongoPassword}@${mongoUri}`);
-  console.log('MongoDB connected');
 };
 
 export default connectDB;

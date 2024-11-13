@@ -57,7 +57,7 @@ export const fetchPrice = async (id: string): Promise<number> => {
     throw new Error('All price fetchers failed');
   }
 
-  // Update cache in database and return price
+  // Update in database
   await PriceCache.findOneAndUpdate(
     { tokenId: id },
     { price, timestamp: Date.now() },

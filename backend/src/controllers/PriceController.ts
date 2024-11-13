@@ -8,6 +8,7 @@ interface RequestQuery {
 
 export const getPrice = async (req: Request<{}, {}, {}, RequestQuery>, res: Response) => {
   const { label } = req.query;
+
   const tokenConfig = getTokenConfigByLabel(label);
   if (!tokenConfig) {
     console.log(label);
